@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 
+	"github.com/achsanalfitra/Basic-Web-Application/packages/config"
 	"github.com/achsanalfitra/Basic-Web-Application/packages/handlers"
+	"github.com/achsanalfitra/Basic-Web-Application/packages/render"
 )
 
 const port string = "8080"
@@ -16,6 +19,17 @@ const landingPageAddress string = "/landing-page"
 // Also, these parameters are not changing so its good to make them constant
 
 func main() {
+	var app config.AppConfig
+
+	app = config.AppConfig{
+		TemplateCache:  make(map[string]*template.Template),
+		TemplateLoaded: "Accessing template",
+	}
+
+	render.AccessTemplateCache(&app)
+
+	fmt.Println(app.TemplateLoaded)
+
 	http.HandleFunc(homeAddress, handlers.Home)
 	// On the main function, the HandleFunc function takes the request responder function Home that has been made previously
 
